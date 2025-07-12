@@ -163,6 +163,7 @@ Build the circuit as shown in the image using the following components:
 - Pushbutton  
 - Jumper wires  
 
+#### Circuit Diagram
 ![Arduino LED & Pushbutton Circuit](screenshot/LED_Toggle.png)
 
 ---
