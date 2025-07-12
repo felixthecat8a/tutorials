@@ -60,7 +60,7 @@ The HTML file will serve as the user interface for controlling an LED from a bro
 
 #### Insert Boilerplate Code
 1. Open index.html in your code editor.
-2. Type ! and press Tab (in VS Code) to generate a full HTML boilerplate.
+2. Type `!` and press `Tab` (in VS Code) to generate a full HTML boilerplate.
 
 #### Link Your Stylesheet
 Inside the `<head>` tag, under the `<title>`, add:
@@ -182,6 +182,59 @@ The server will use this to control the Arduino LED.
 
 
 #### Add the Server Code
+Open the file server.js and insert the following code:
+```js
+/* server.js */
 
+// Required modules
+const express = require('express');
+const http = require('http');
+const { Server } = require('socket.io');
+const path = require('path');
+const { Board, Led } = require('johnny-five');
 
+// App setup
+const app = express();
+const server = http.createServer(app);
+const io = new Server(server);
+const PORT = 3000;
 
+// Serve static files from the public directory
+app.use(express.static(path.join(__dirname, '../public')));
+
+// Fallback route for '/'
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/index.html'));
+});
+
+// Arduino board logic
+const board = new Board();
+
+board.on('ready', () => {
+  console.log('Board is ready!');
+
+  const ledPin = 13;
+  const led = new Led(ledPin);
+
+  // Listen for socket connections
+  io.on('connection', (socket) => {
+    console.log('Client connected');
+
+    socket.on('ledStatus', (data) => {
+      console.log('LED Status:', data);
+      const { isOn } = data;
+      isOn ? led.on() : led.off();
+    });
+
+    socket.on('disconnect', () => {
+      console.log('Client disconnected');
+    });
+  });
+});
+
+// Start the server
+server.listen(PORT, () => {
+  console.log(`Server started at: http://localhost:${PORT}`);
+});
+
+```
