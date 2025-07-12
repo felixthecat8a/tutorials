@@ -3,7 +3,7 @@
 This repository contains interactive tutorials for controlling an Arduino LED using different technologies:
 
 ### 🔹 1. LED Toggle with Arduino Sketch
-Basic LED toggle using a pushbutton and Arduino code (C++).  
+Basic LED toggle using a pushbutton and Arduino code.  
 📘 [View Tutorial](LED/led-toggle-arduino.md)
 
 ### 🔹 2. LED Toggle with Johnny-Five (Node.js)
