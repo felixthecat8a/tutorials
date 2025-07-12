@@ -86,18 +86,20 @@ Create a new project directory with a JavaScript file in it named "ledToggle.js"
 New-Item -Path .\Project -ItemType Directory
 New-Item -Path .\Project\ledToggle.js -ItemType File
 ```
-Enter the project directory & initiate a project.
+Navigate into the project directory and initialize a Node.js project.
 ```ps
 cd Project
 yarn init -y
 ```
 Adding `--yes` or `-y` to the command bypasses the prompt questions. A *package.json* file will be generated in the Project directory.
-If using NPM, the command is `npm init --yes`.
-- Hint: cd.. will return you to a parent directory.
-- Hint: cd 'My Project' will let you enter a directory with a space in the title.
-- Hint: cd E:\ will change the directory to the E drive for access to a USB drive.
+If using NPM instead, run `npm init --yes`.
 
-#### Install the necessary packages.
+Helpful Terminal Tips:
+- `cd..` will return you to a parent directory.
+- `cd 'My Project'` will let you enter a directory with a space in the title.
+- `cd E:\` switch to another drive like a USB or external disk.
+
+#### Install The Necessary Packages.
 
 - Install the Johnny-Five and SerialPort packages.
 ```shell
@@ -107,13 +109,109 @@ or
 ```shell
 npm install johnny-five serialport
 ```
-Installing packages creates a `package.json` file and a `yarn.lock` or `package-lock.json` file
-The file directory should look like the file directory map shown.
+This will install the libraries and create the necessary `node_modules/`, `package.json`, and a lock file (`yarn.lock `or `package-lock.json`).
 
+#### Your Project Directory Should Look Like:
 ```
   Project/
   ├── node_modules/
   ├── ledToggle.js
   ├── package.json
-  └── yarn.lock or package-lock.json
+  └── yarn.lock
+  or
+  └── package-lock.json
+```
+#### Edit the JavaScript Code.
+Open the file ledToggle.js and add the JavaScript code as shown.
+```js
+/* ledToggle.js */
+const { Board, Button, Led } = require('johnny-five');
+
+const board = new Board();
+
+const buttonPin = 10;
+const ledPin = 11;
+let ledState = false;
+
+board.on('ready', function () {
+  const button = new Button({
+    pin: buttonPin,
+    isPullup: true
+  });
+
+  const led = new Led(ledPin);
+
+  button.on('down', () => {
+    ledState = !ledState;
+    if (ledState) {
+      led.on();
+    } else {
+      led.off();
+    }
+  });
+});
+
+  ```
+
+#### Get the Circuit Ready
+
+Build the circuit as shown in the image using the following components:
+- Arduino Uno R3 board  
+- Breadboard  
+- LED (any color)  
+- 220 Ω resistor  
+- Pushbutton  
+- Jumper wires  
+
+![Arduino LED & Pushbutton Circuit](screenshot/LED_Toggle.png)
+
+---
+
+#### Upload the Firmata Sketch Using the Arduino IDE
+
+The **Firmata** sketch enables your Arduino to receive instructions from JavaScript using the Johnny-Five library.
+
+1. Open the **Arduino IDE** and connect your Arduino Uno board via USB.
+2. Go to **File > Examples > Firmata > StandardFirmata** to open the Firmata sketch.
+3. Select your board via **Tools > Board > Arduino Uno**.
+4. Select your port via **Tools > Port** and choose the one labeled *COM# (Arduino Uno)*.
+5. Upload the sketch via **Sketch > Upload** or by clicking the arrow button.
+
+> Once the Firmata sketch is uploaded, you can close the Arduino IDE.
+
+#### Run the Script Using Node.js
+
+Once your Arduino is connected and the **Firmata** sketch is uploaded, you can run your script with Node.js.
+
+```ps
+node ledToggle.js
+```
+If everything is set up correctly, pressing the pushbutton should toggle the LED on and off.
+
+> Use Ctrl + C in the terminal to stop the script at any time.
+
+#### Optional: Create a Shortcut Command
+
+To simplify running your script, edit the scripts section of your package.json file to include a custom command:
+```json
+{
+  "name": "project",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "johnny-five": "^2.1.0",
+    "serialport": "^11.0.0"
+  },
+  "scripts": {
+    "toggle": "node ledToggle.js"
+  }
+}
+```
+Now you can run the script using one of the following:
+
+```bash
+yarn toggle      # if using Yarn
+npm run toggle   # if using NPM
+npx toggle       # works in some setups with NPM
 ```
