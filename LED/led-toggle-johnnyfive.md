@@ -1,4 +1,4 @@
-# Controlling an LED with Arduino & Node.js
+# Controlling an LED with Arduino & Johnny-Five (Node.js)
 
 ## VS Code & Node.js
 [***Visual Studio Code***](https://code.visualstudio.com/) is a source-code editor made by Microsoft. PowerShell is a task-based command-line shell and scripting language created by Microsoft that is available in the VS Code editor. For this project, we will be using VS Code with Node.js installed on the computer. When you open VS Code, it displays a code editor window, a command terminal and a file explorer.
