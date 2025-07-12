@@ -26,7 +26,7 @@ Open the Arduino IDE and insert the code that is shown to a new sketch.
 
 ```ino
 /* ledToggle.ino */
-const int ledPin = 13;
+const int ledPin = 11;
 const int buttonPin = 10;
 int ledState = LOW;
 int currentState, lastState;
@@ -43,7 +43,7 @@ void loop() {
         ledState = !ledState;
         digitalWrite(ledPin, ledState);
     }
-    delay(100);
+    delay(10);
 }
 ```
 
