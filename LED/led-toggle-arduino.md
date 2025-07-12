@@ -1,4 +1,4 @@
-# Controlling an LED with Arduino & Node.js
+# Controlling an LED with Arduino
 <!-- Arduino & Arduino IDE -->
 ## Arduino & Arduino IDE
 [***Arduino***](https://www.arduino.cc/) is an open-source electronics platform that consists of both hardware and software components. Arduino includes a series of microcontroller boards that are equipped with various input and output pins. The [*Arduino IDE*](https://www.arduino.cc/en/software/) is a programming environment used to write, compile, and upload code to the Arduino board. It uses a programming language based on C/C++ to write sketches. Arduino *Sketches* are the program files with the `.ino` extension that contain Arduino code. These files define the behavior of the Arduino board when it is running.
