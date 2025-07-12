@@ -238,3 +238,77 @@ server.listen(PORT, () => {
 });
 
 ```
+#### Get the Circuit Ready
+
+Build the circuit as shown in the image using the following components:
+- Arduino Uno R3 board  
+- Breadboard  
+- LED (any color)  
+- 220 Ω resistor  
+- Pushbutton  
+- Jumper wires  
+
+#### Circuit Diagram
+![Arduino LED & Pushbutton Circuit](screenshot/LED_Single.png)
+
+---
+
+#### Upload the Firmata Sketch Using the Arduino IDE
+
+The **Firmata** sketch allows your Arduino to communicate with JavaScript code via Johnny-Five by listening for instructions over the serial port.
+
+1. Open the **Arduino IDE** and connect your Arduino Uno board via USB.
+2. Go to **File > Examples > Firmata > StandardFirmata** to open the Firmata sketch.
+3. Select your board via **Tools > Board > Arduino Uno**.
+4. Select your port via **Tools > Port** and choose the one labeled *COM# (Arduino Uno)*.
+5. Upload the sketch via **Sketch > Upload** or by clicking the arrow button.
+
+> Once the Firmata sketch is uploaded, you can close the Arduino IDE.
+
+### Run the Node.js Express Server
+Make sure your Arduino board is connected via USB and your LED circuit is built correctly.
+#### Start the Server
+Run the following command from your project root:
+```ps
+node server/server.js
+```
+> Use `Ctrl + C` to stop the server at any time.
+
+Once the server starts, you should see this message in the terminal:
+```ps
+Server started at http://localhost:3000
+```
+
+#### View the Web Interface
+
+Open a web browser and go to `http://localhost:3000`.
+You should see the LED control button. Clicking the button will toggle the LED connected to your Arduino.
+
+#### Add a Script to `package.json`
+To make running the server easier, update the scripts section in your package.json file like this:
+```json
+  {
+      "name": "project",
+      "version": "1.0.0",
+      "main": "index.js",
+      "license": "MIT",
+      "dependencies": {
+          "express": "^4.18.2",
+          "johnny-five": "^2.1.0",
+          "serialport": "^12.0.0",
+          "socket.io": "^4.7.2"
+      },
+      "scripts": {
+          "start": "node server/server.js"
+      }
+  }
+```            
+Now you can start the server with:
+
+```bash
+yarn start
+```
+Or, if using NPM:
+```bash
+npm start
+```
