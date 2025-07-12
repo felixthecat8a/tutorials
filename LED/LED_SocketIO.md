@@ -92,8 +92,7 @@ Add the Socket.IO client library script before your code runs.
 ```html
 <script src="/socket.io/socket.io.js"></script>
 ```
-
-
+#### Final HTML Template
 ```html
 <!DOCTYPE html>
 <html lang="en">
@@ -127,6 +126,62 @@ Add the Socket.IO client library script before your code runs.
 </html>
 ```
 
+#### Add the CSS Style Code
+Open the file `style.css` and insert the following code to style the page and button:
+
+```css
+/* style.css */
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1rem;
+    font-weight: bold;
+    background-color: lightgray;
+    color: dimgray;
+    text-align: center;
+}
+button {
+    background-color: crimson;
+    color: azure;
+    font-size: inherit;
+    font-weight: inherit;
+    width: 150px;
+    border: solid thin gray;
+    border-radius: 0.5rem;
+    padding: 3px 30px;
+    cursor: pointer;
+    transition-duration: 0.5s;
+}
+```
+>You can tweak the colors and spacing to match your preferred style.
+
+#### Add the JavaScript Code
+Open the file code.js and insert the following code to add button interactivity:
+
+```js
+/* code.js */
+const socket = io();
+const buttonLED = document.getElementById("buttonLED");
+buttonLED.style.backgroundColor = 'crimson';
+let isOn = false;
+buttonLED.addEventListener("click", function() {
+    if (isOn) {
+        isOn = false;
+        buttonLED.textContent = "LED is OFF";
+        buttonLED.style.backgroundColor = 'crimson';
+        socket.emit('ledStatus', { isOn:isOn });
+    } else {
+        isOn = true;
+        buttonLED.textContent = "LED is ON";
+        buttonLED.style.backgroundColor = 'darkgreen';
+        socket.emit('ledStatus', { isOn:isOn });
+    }
+});
+ ```     
+The socket sends an event called ledStatus with the current LED state every time the button is clicked.
+The server will use this to control the Arduino LED.
+
+
+#### Add the Server Code
 
 
 
